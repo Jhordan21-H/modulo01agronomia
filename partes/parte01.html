@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parte 01: Windows 10 - 11 · Módulo 01</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-950: #1d3a25;
+      --green-900: #24522e;
+      --green-800: #2F7D3E;
+      --green-700: #3a8e4b;
+      --green-600: #469F5A;
+      --green-500: #5FAF6A;
+      --green-400: #7BC182;
+      --green-300: #9ed3a4;
+      --green-100: #e2f3e5;
+      --gold-500: #bd9a15;
+      --gold-400: #D4B11A;
+      --gold-300: #E7C94B;
+      --bg: #fbfdfb;
+      --surface: #ffffff;
+      --ink: #0f2a1c;
+      --body: #3f4f46;
+      --muted: #64748b;
+      --border: rgba(15, 42, 28, 0.09);
+      --shadow-sm: 0 6px 18px rgba(10, 35, 22, 0.06);
+      --shadow-lg: 0 22px 50px rgba(10, 35, 22, 0.14);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a1a11;
+        --surface: #10281a;
+        --ink: #e7f6ec;
+        --body: #c3d8cb;
+        --muted: #8aa898;
+        --border: rgba(231, 246, 236, 0.10);
+      }
+      .topic-card { background: var(--surface); border-color: var(--border); }
+      .topic-card__title, h2 { color: var(--ink); }
+    }
+
+    body {
+      font-family: "Outfit", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 2rem clamp(1.2rem, 4vw, 2rem); }
+
+    /* Header pequeño */
+    .header-small {
+      background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .back-link {
+      position: absolute;
+      left: 2rem;
+      top: 2rem;
+      color: var(--gold-300);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: var(--gold-400); }
+    
+    .header-small h1 {
+      font-size: 2rem;
+      margin-top: 1.5rem;
+    }
+    .header-small h1 span { color: var(--gold-300); }
+
+    /* Tarjetas de tema */
+    .topic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .topic-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    
+    .topic-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .topic-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    
+    .topic-card__toggle {
+      background: var(--green-100);
+      border: none;
+      color: var(--green-800);
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .topic-card__body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    }
+    
+    .topic-card.expanded .topic-card__body {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+    
+    .topic-card.expanded .topic-card__toggle { transform: rotate(180deg); }
+
+    .topic-card__theory { font-size: 0.95rem; margin-bottom: 0.8rem; }
+    
+    .topic-card__shortcut {
+      display: inline-block;
+      background: var(--green-50);
+      border-left: 3px solid var(--green-500);
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--green-900);
+      margin-top: 0.5rem;
+      border-radius: 0 8px 8px 0;
+    }
+    kbd {
+      background: var(--green-800);
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+    
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <header class="header-small">
+    <a href="../index.html" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver al Índice
+    </a>
+    <h1>Parte 01: <span>Windows 10 - 11</span></h1>
+    <p>Sistema Operativo y Entorno de Trabajo</p>
+  </header>
+
+  <main class="wrap">
+    
+    <div class="topic-card reveal" style="animation-delay: 0.1s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">1. Conceptos básicos del sistema operativo</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Un Sistema Operativo (SO) es el software principal que gestiona el hardware de la computadora y proporciona servicios a los programas. Windows 10 y 11 son sistemas operativos visuales basados en una Interfaz Gráfica de Usuario (GUI), lo que permite interactuar mediante ventanas, iconos y un cursor, facilitando enormemente el trabajo informático.</p>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.2s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">2. Inicio y cierre de sesión</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">El inicio de sesión protege tus archivos. Al prender el equipo, debes seleccionar tu cuenta e ingresar tu contraseña o PIN. Al terminar, es vital cerrar sesión o suspender para evitar accesos no autorizados. Si te ausentas temporalmente, debes bloquear el equipo.</p>
+        <div class="topic-card__shortcut"><strong>Atajo:</strong> <kbd>Win + L</kbd> Bloquea la sesión actual al instante.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.3s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">3. Creación de accesos directos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Un acceso directo es un "puente" rápido hacia un archivo, carpeta o programa que está guardado en otro lugar (se reconocen por una pequeña flecha en el ícono). Puedes crearlos haciendo clic derecho sobre el elemento original y seleccionando "Crear acceso directo" o "Enviar a > Escritorio".</p>
+        <div class="topic-card__shortcut"><strong>Atajo (Mouse):</strong> <kbd>Alt + Arrastrar archivo</kbd> crea un acceso directo donde lo sueltes.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.4s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">4. Configuración del escritorio y barra de tareas</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">El escritorio es tu área de trabajo digital. Puedes cambiar el fondo de pantalla, colores y temas haciendo clic derecho en un área vacía > "Personalizar". La barra de tareas (ubicada generalmente abajo) aloja el menú Inicio, aplicaciones ancladas y notificaciones. Puedes anclar tus programas favoritos arrastrándolos hacia ella.</p>
+        <div class="topic-card__shortcut"><strong>Atajo:</strong> <kbd>Win + I</kbd> Abre la Configuración de Windows. <kbd>Win + D</kbd> Muestra el escritorio ocultando todo.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.5s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">5. Configuración del monitor y teclado</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">En entornos laborales a veces se usan proyectores o dos monitores. Puedes elegir si duplicar la pantalla o extenderla. Respecto al teclado, puedes instalar múltiples idiomas y alternar entre ellos para acceder a caracteres específicos (como la Ñ o tildes en distintas configuraciones).</p>
+        <div class="topic-card__shortcut"><strong>Atajos:</strong> <kbd>Win + P</kbd> Proyectar/Configurar monitores. <kbd>Win + Espacio</kbd> Cambiar idioma del teclado.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.6s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">6. Manejo de ventanas: mover, cambiar tamaño y organizar</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Windows se basa en "ventanas". Puedes arrastrarlas desde su barra de título (arriba). Si arrastras una ventana hacia los bordes de la pantalla, Windows la ajustará automáticamente a la mitad o a un cuarto de la pantalla (función Snap Assist), ideal para trabajar con dos documentos a la vez.</p>
+        <div class="topic-card__shortcut"><strong>Atajos:</strong> <kbd>Win + Flechas direccionales</kbd> Acopla o maximiza la ventana. <kbd>Alt + Tab</kbd> Cambia entre ventanas abiertas.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.7s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">7. Uso del Explorador de Windows</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Es la herramienta principal para navegar por tus archivos. Está dividido en un panel de navegación (izquierdo) con acceso rápido a Documentos, Descargas y Discos, y un panel de contenido (derecho). Permite organizar información en una estructura de carpetas tipo "árbol".</p>
+        <div class="topic-card__shortcut"><strong>Atajo:</strong> <kbd>Win + E</kbd> Abre el Explorador de Archivos instantáneamente.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.8s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">8. Crear, abrir y guardar archivos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Todo trabajo digital genera un archivo. Puedes crear carpetas haciendo clic derecho > Nuevo > Carpeta. Al guardar por primera vez (Guardar como), debes indicar 3 cosas importantes: La UBICACIÓN (dónde se guardará), el NOMBRE y el TIPO de archivo (.docx, .pdf, .jpg).</p>
+        <div class="topic-card__shortcut"><strong>Atajos:</strong> <kbd>Ctrl + N</kbd> Nuevo archivo. <kbd>Ctrl + S</kbd> Guardar. <kbd>Ctrl + Mayús + N</kbd> Nueva carpeta.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.9s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">9. Principales atajos de teclado en Windows</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Los atajos te hacen más eficiente al evitar depender exclusivamente del ratón. Combinando la tecla Control (Ctrl) o Windows (Win) con otras letras, puedes ejecutar órdenes rápidas globales en casi cualquier programa.</p>
+        <div class="topic-card__shortcut">
+          <strong>Esenciales:</strong><br>
+          <kbd>Ctrl + C</kbd> Copiar<br>
+          <kbd>Ctrl + X</kbd> Cortar<br>
+          <kbd>Ctrl + V</kbd> Pegar<br>
+          <kbd>Ctrl + Z</kbd> Deshacer<br>
+          <kbd>Win + V</kbd> Historial del portapapeles (permite ver todo lo copiado)
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Script para hacer desplegables las tarjetas
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+        // Cerrar todas primero (opcional, si quieres que solo haya una abierta)
+        document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('expanded'));
+        
+        // Si no estaba expandida, la abrimos
+        if (!isExpanded) {
+          card.classList.add('expanded');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

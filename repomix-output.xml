@@ -1,0 +1,456 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+assets/
+  img/
+    logo_agronomia.png
+    logo_teams.png
+    logo_uncp.png
+partes/
+  parte01.html
+  parte02.html
+  parte03.html
+index.html
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="partes/parte01.html">
+
+</file>
+
+<file path="partes/parte02.html">
+
+</file>
+
+<file path="partes/parte03.html">
+
+</file>
+
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 01 · Sistema Operativo, Internet y Word · Facultad de Agronomía · UNCP</title>
+  <meta name="description" content="Índice del Módulo 01: Sistema Operativo Windows, Navegación en Internet y Microsoft Word 2024.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-950: #1d3a25;
+      --green-900: #24522e;
+      --green-800: #2F7D3E;
+      --green-700: #3a8e4b;
+      --green-600: #469F5A;
+      --green-500: #5FAF6A;
+      --green-400: #7BC182;
+      --green-300: #9ed3a4;
+      --green-100: #e2f3e5;
+      --gold-500: #bd9a15;
+      --gold-400: #D4B11A;
+      --gold-300: #E7C94B;
+      --bg: #fbfdfb;
+      --surface: #ffffff;
+      --ink: #0f2a1c;
+      --body: #3f4f46;
+      --muted: #64748b;
+      --border: rgba(15, 42, 28, 0.09);
+      --shadow-sm: 0 6px 18px rgba(10, 35, 22, 0.06);
+      --shadow-lg: 0 22px 50px rgba(10, 35, 22, 0.14);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a1a11;
+        --surface: #10281a;
+        --ink: #e7f6ec;
+        --body: #c3d8cb;
+        --muted: #8aa898;
+        --border: rgba(231, 246, 236, 0.10);
+        --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 22px 50px rgba(0, 0, 0, 0.55);
+      }
+      .dato, .modulo { background: var(--surface); }
+      .dato .dato__valor, .modulo h3, .modulos h2 { color: var(--ink); }
+      .dato, .modulo, .nota { border-color: var(--border); }
+    }
+
+    html, body { overflow-x: hidden; }
+
+    body {
+      font-family: "Outfit", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(1.2rem, 4vw, 2rem); }
+
+    /* ================= Cabecera ================= */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      color: #fff;
+      padding: clamp(3.2rem, 9vw, 6rem) 0 clamp(3.6rem, 9vw, 5.4rem);
+      background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 52%, var(--green-600) 100%);
+      background-size: 200% 200%;
+      animation: gradiente 14s ease-in-out infinite;
+    }
+    @keyframes gradiente {
+      0%, 100% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+    }
+    
+    .hero__logo {
+      position: relative;
+      width: clamp(78px, 12vw, 106px);
+      height: clamp(78px, 12vw, 106px);
+      object-fit: contain;
+      padding: 0.6rem;
+      margin: 0 auto 1.2rem;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.30);
+      display: block;
+      animation: drop 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes drop {
+      from { opacity: 0; transform: translateY(-28px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .hero__institucion {
+      position: relative;
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-300);
+      font-weight: 600;
+      margin-bottom: 0.9rem;
+      animation: subir 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .hero h1 {
+      position: relative;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      animation: subir 0.9s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--gold-400), var(--gold-300));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .hero p {
+      position: relative;
+      max-width: 620px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(1rem, 2.2vw, 1.12rem);
+      animation: subir 0.9s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(26px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero__sep {
+      position: relative;
+      width: 64px; height: 4px;
+      margin: 1.4rem auto 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--gold-400), var(--green-400));
+      animation: crecer 1s 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transform-origin: center;
+    }
+    @keyframes crecer {
+      from { transform: scaleX(0); opacity: 0; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    /* ================= Módulos (Índice) ================= */
+    .modulos { padding: clamp(3rem, 7vw, 5rem) 0; }
+    .modulos h2 {
+      text-align: center;
+      font-size: clamp(1.5rem, 3.6vw, 2.05rem);
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .modulos__sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 3rem;
+    }
+    .modulos__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 1.5rem;
+    }
+    
+    /* Enlaces a las partes */
+    .modulo {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 2rem 1.8rem;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modulo::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-600), var(--gold-400));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .modulo:hover { transform: translateY(-7px); box-shadow: var(--shadow-lg); }
+    .modulo:hover::before { transform: scaleX(1); }
+
+    .modulo__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .modulo__num {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-800);
+      background: var(--green-100);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+    }
+    .modulo__num i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-400); }
+    .modulo__icona {
+      width: 44px; height: 44px;
+      display: grid; place-items: center;
+      border-radius: 14px;
+      color: var(--green-700);
+      background: var(--green-50);
+      border: 1px solid var(--border);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease, color 0.3s ease;
+    }
+    .modulo:hover .modulo__icona { transform: rotate(-6deg) scale(1.08); background: var(--green-100); color: var(--green-900); }
+    .modulo__icona svg { width: 22px; height: 22px; }
+
+    .modulo h3 { font-size: 1.25rem; color: var(--ink); margin-bottom: 0.8rem; }
+    
+    .modulo__desc {
+      color: var(--body);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+      line-height: 1.5;
+    }
+    
+    .modulo ul { list-style: none; margin-bottom: 1.5rem; flex-grow: 1; }
+    .modulo li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 0.3rem 0;
+    }
+    .modulo li::before {
+      content: "";
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold-400);
+      flex-shrink: 0;
+      margin-top: 0.45rem;
+    }
+
+    .modulo__action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--green-600);
+      font-size: 0.95rem;
+      transition: transform 0.3s ease, color 0.3s ease;
+      margin-top: auto;
+    }
+    .modulo:hover .modulo__action {
+      color: var(--green-800);
+      transform: translateX(5px);
+    }
+
+    /* ================= Pie ================= */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+      background: var(--surface);
+    }
+    .footer p { color: var(--muted); font-size: 0.9rem; }
+    .footer .contacto { color: var(--ink); font-weight: 600; margin-top: 0.4rem; }
+
+    /* ================= Reveal ================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .reveal:nth-child(1) { animation-delay: 0.1s; }
+    .reveal:nth-child(2) { animation-delay: 0.2s; }
+    .reveal:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera -->
+  <header class="hero">
+    <p class="hero__institucion">Facultad de Agronomía &middot; UNCP</p>
+    <h1>Módulo 01: <span>Ofimática y Herramientas Digitales</span></h1>
+    <p>Selecciona una de las partes a continuación para acceder al material de estudio, atajos de teclado y guías paso a paso.</p>
+    <div class="hero__sep" aria-hidden="true"></div>
+  </header>
+
+  <!-- Índice de Módulos (Partes) -->
+  <section class="modulos wrap">
+    <h2>Índice del Curso</h2>
+    <p class="modulos__sub">El contenido ha sido dividido en 3 partes para facilitar tu aprendizaje.</p>
+
+    <div class="modulos__grid">
+      
+      <!-- PARTE 01 -->
+      <a href="partes/parte01.html" class="modulo reveal">
+        <div class="modulo__top">
+          <span class="modulo__num"><i></i>Parte 01</span>
+          <span class="modulo__icona">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+          </span>
+        </div>
+        <h3>Windows 10 y 11</h3>
+        <ul>
+          <li>Conceptos básicos y sesión.</li>
+          <li>Accesos directos y personalización del escritorio.</li>
+          <li>Manejo de ventanas y Explorador de Windows.</li>
+          <li>Atajos de teclado esenciales.</li>
+        </ul>
+        <span class="modulo__action">Ingresar al contenido &rarr;</span>
+      </a>
+
+      <!-- PARTE 02 -->
+      <a href="partes/parte02.html" class="modulo reveal">
+        <div class="modulo__top">
+          <span class="modulo__num"><i></i>Parte 02</span>
+          <span class="modulo__icona">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </span>
+        </div>
+        <h3>Navegador de Internet</h3>
+        <ul>
+          <li>Navegación segura y motores de búsqueda.</li>
+          <li>Uso de Google Chrome y Mozilla Firefox.</li>
+          <li>Descargas y gestión de archivos.</li>
+          <li>Correo electrónico y redes sociales.</li>
+        </ul>
+        <span class="modulo__action">Ingresar al contenido &rarr;</span>
+      </a>
+
+      <!-- PARTE 03 -->
+      <a href="partes/parte03.html" class="modulo reveal">
+        <div class="modulo__top">
+          <span class="modulo__num"><i></i>Parte 03</span>
+          <span class="modulo__icona">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v18"/><path d="M4 7h9v6H4M13 13h7v5h-7"/></svg>
+          </span>
+        </div>
+        <h3>Microsoft Word 2024</h3>
+        <ul>
+          <li>Creación y edición de documentos.</li>
+          <li>Formato avanzado de texto y párrafos.</li>
+          <li>Diseño de página y herramientas (columnas, notas).</li>
+          <li>Tablas, gráficos e impresión.</li>
+        </ul>
+        <span class="modulo__action">Ingresar al contenido &rarr;</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Pie -->
+  <footer class="footer">
+    <div class="wrap">
+      <p>Facultad de Agronomía &middot; Universidad Nacional del Centro del Perú</p>
+      <p class="contacto">Desarrollado para el Módulo de Ofimática</p>
+    </div>
+  </footer>
+
+</body>
+</html>
+</file>
+
+</files>

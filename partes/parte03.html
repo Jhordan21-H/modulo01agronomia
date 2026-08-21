@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parte 03: Microsoft Word 2024 · Módulo 01</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-950: #1d3a25;
+      --green-900: #24522e;
+      --green-800: #2F7D3E;
+      --green-700: #3a8e4b;
+      --green-600: #469F5A;
+      --green-500: #5FAF6A;
+      --green-400: #7BC182;
+      --green-300: #9ed3a4;
+      --green-100: #e2f3e5;
+      --gold-500: #bd9a15;
+      --gold-400: #D4B11A;
+      --gold-300: #E7C94B;
+      --bg: #fbfdfb;
+      --surface: #ffffff;
+      --ink: #0f2a1c;
+      --body: #3f4f46;
+      --muted: #64748b;
+      --border: rgba(15, 42, 28, 0.09);
+      --shadow-sm: 0 6px 18px rgba(10, 35, 22, 0.06);
+      --shadow-lg: 0 22px 50px rgba(10, 35, 22, 0.14);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a1a11;
+        --surface: #10281a;
+        --ink: #e7f6ec;
+        --body: #c3d8cb;
+        --muted: #8aa898;
+        --border: rgba(231, 246, 236, 0.10);
+      }
+      .topic-card { background: var(--surface); border-color: var(--border); }
+      .topic-card__title, h2 { color: var(--ink); }
+      .sub-topic h4 { color: var(--green-400); }
+    }
+
+    body {
+      font-family: "Outfit", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 2rem clamp(1.2rem, 4vw, 2rem); }
+
+    /* Header pequeño */
+    .header-small {
+      background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .back-link {
+      position: absolute;
+      left: 2rem;
+      top: 2rem;
+      color: var(--gold-300);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: var(--gold-400); }
+    
+    .header-small h1 {
+      font-size: 2rem;
+      margin-top: 1.5rem;
+    }
+    .header-small h1 span { color: var(--gold-300); }
+
+    /* Tarjetas de tema */
+    .topic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .topic-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    
+    .topic-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .topic-card__title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    
+    .topic-card__toggle {
+      background: var(--green-100);
+      border: none;
+      color: var(--green-800);
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .topic-card__body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.4s ease;
+    }
+    
+    /* Aumentado a 2000px porque el contenido de Word es extenso */
+    .topic-card.expanded .topic-card__body {
+      max-height: 2500px;
+      opacity: 1;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+    
+    .topic-card.expanded .topic-card__toggle { transform: rotate(180deg); }
+
+    .topic-card__theory { font-size: 0.95rem; margin-bottom: 0.8rem; }
+    
+    .sub-topic { margin-top: 1.2rem; margin-bottom: 0.8rem; }
+    .sub-topic h4 {
+      color: var(--green-800);
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sub-topic h4::before {
+      content: "";
+      width: 6px; height: 6px;
+      background: var(--gold-400);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .topic-card__shortcut {
+      display: block;
+      background: var(--green-50);
+      border-left: 4px solid var(--green-500);
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      color: var(--green-900);
+      margin-top: 1rem;
+      border-radius: 0 8px 8px 0;
+      line-height: 1.8;
+    }
+    kbd {
+      background: var(--green-800);
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: "Consolas", monospace;
+      font-size: 0.85rem;
+      margin: 0 0.2rem;
+    }
+    
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <header class="header-small">
+    <a href="../index.html" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver al Índice
+    </a>
+    <h1>Parte 03: <span>Microsoft Word 2024</span></h1>
+    <p>Procesamiento Profesional de Textos</p>
+  </header>
+
+  <main class="wrap">
+    
+    <!-- 1. Introducción a Microsoft Word -->
+    <div class="topic-card reveal" style="animation-delay: 0.1s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">1. Introducción a Microsoft Word</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Microsoft Word 2024 es el procesador de textos estándar de la industria, diseñado para crear desde notas sencillas hasta tesis universitarias completas, con herramientas integradas de revisión y diseño.</p>
+        
+        <div class="sub-topic">
+          <h4>Inicio y cierre de la aplicación</h4>
+          <p>Para abrir Word, búscalo en el menú Inicio o presiona <kbd>Win</kbd> y escribe "Word". Para cerrarlo, puedes usar el botón X en la esquina superior derecha, ir a Archivo > Cerrar, o utilizar atajos de teclado.</p>
+        </div>
+        
+        <div class="sub-topic">
+          <h4>Creación y manipulación de documentos</h4>
+          <p>Al abrir, se muestra la "Pantalla de inicio", donde puedes elegir un "Documento en blanco" o una de las plantillas predefinidas (currículums, informes, etc.). Manipular un documento implica guardarlo correctamente desde el inicio para evitar pérdida de datos.</p>
+        </div>
+
+        <div class="topic-card__shortcut">
+          <strong>Atajos Fundamentales:</strong><br>
+          <kbd>Ctrl + U</kbd> Crear un nuevo documento en blanco.<br>
+          <kbd>Ctrl + A</kbd> Abrir un documento existente.<br>
+          <kbd>Ctrl + G</kbd> Guardar los cambios (Guardar).<br>
+          <kbd>F12</kbd> Guardar como (ideal para cambiar el nombre o formato a PDF).<br>
+          <kbd>Alt + F4</kbd> Cerrar Word.
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Edición de Texto -->
+    <div class="topic-card reveal" style="animation-delay: 0.2s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">2. Edición de Texto</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <div class="sub-topic">
+          <h4>Seleccionar, copiar, mover y eliminar texto</h4>
+          <p>La selección eficiente es clave: doble clic selecciona una palabra, triple clic selecciona el párrafo entero. Para <strong>mover</strong> texto, debes cortarlo y luego pegarlo. Para <strong>duplicarlo</strong>, cópialo y pégalo. Elimina con <kbd>Supr</kbd> (borra hacia adelante) o <kbd>Retroceso</kbd> (borra hacia atrás).</p>
+        </div>
+        
+        <div class="sub-topic">
+          <h4>Deshacer y rehacer acciones</h4>
+          <p>Word tiene memoria de las acciones que realizas. Si borraste algo por error o aplicaste un formato que no te gustó, no necesitas borrarlo manualmente, simplemente deshaz la acción. Si deshaces demasiado, puedes rehacerlo.</p>
+        </div>
+
+        <div class="topic-card__shortcut">
+          <strong>Atajos de Edición (Versión Español):</strong><br>
+          <kbd>Ctrl + C</kbd> Copiar | <kbd>Ctrl + X</kbd> Cortar | <kbd>Ctrl + V</kbd> Pegar.<br>
+          <kbd>Ctrl + Z</kbd> Deshacer la última acción.<br>
+          <kbd>Ctrl + Y</kbd> Rehacer la última acción deshecha.<br>
+          <kbd>Ctrl + E</kbd> Seleccionar TODO el texto del documento.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Formato de Texto -->
+    <div class="topic-card reveal" style="animation-delay: 0.3s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">3. Formato de Texto</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">El formato de texto cambia la apariencia de los caracteres (letras) sin alterar la estructura del párrafo. Se encuentra en la pestaña <strong>Inicio</strong>, en el grupo <strong>Fuente</strong>.</p>
+        
+        <div class="sub-topic">
+          <h4>Tipo, tamaño, estilos y color de fuente</h4>
+          <p>Las fuentes (tipografías) más usadas en la academia son Arial o Times New Roman tamaño 11 o 12. Los estilos principales son <strong>Negrita</strong> (para resaltar), <em>Cursiva</em> (para extranjerismos o énfasis) y <u>Subrayado</u>. Puedes cambiar el color del texto y aplicar resaltado.</p>
+        </div>
+
+        <div class="sub-topic">
+          <h4>Letra capital</h4>
+          <p>Es una letra de gran tamaño al principio de un párrafo, usada a menudo en artículos y libros. Se inserta desde la pestaña <strong>Insertar > Letra capital</strong>, eligiendo si va "En texto" o "En margen".</p>
+        </div>
+
+        <div class="topic-card__shortcut">
+          <strong>Atajos de Formato (Versión Español):</strong><br>
+          <kbd>Ctrl + N</kbd> Aplicar <strong>Negrita</strong>.<br>
+          <kbd>Ctrl + K</kbd> Aplicar <em>Cursiva</em>.<br>
+          <kbd>Ctrl + S</kbd> Aplicar <u>Subrayado</u>.<br>
+          <kbd>Ctrl + Shift + > / < </kbd> Aumentar / Disminuir tamaño de fuente.
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Formato de Párrafos -->
+    <div class="topic-card reveal" style="animation-delay: 0.4s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">4. Formato de Párrafos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">El formato de párrafo afecta a todo el bloque de texto hasta el punto y aparte (Enter). Se gestiona desde la pestaña <strong>Inicio</strong>, grupo <strong>Párrafo</strong>.</p>
+        
+        <div class="sub-topic">
+          <h4>Alineación</h4>
+          <p>Define cómo se alinea el texto respecto a los márgenes: Izquierda (por defecto), Centrada (para títulos), Derecha (para fechas/firmas), o Justificada (alineada a ambos lados, ideal para documentos formales de la universidad).</p>
+        </div>
+        
+        <div class="sub-topic">
+          <h4>Sangrías y Espaciado</h4>
+          <p><strong>Sangría:</strong> Es el espacio desde el margen hasta donde empieza el texto. La más común en normas APA es la "Sangría de primera línea".<br>
+          <strong>Espaciado:</strong> El "Interlineado" es el espacio vertical entre líneas (ej. 1.5, doble). El "Espaciado de párrafo" es el espacio antes y después de cada bloque de texto.</p>
+        </div>
+
+        <div class="topic-card__shortcut">
+          <strong>Atajos de Alineación e Interlineado:</strong><br>
+          <kbd>Ctrl + Q</kbd> Alinear a la Izquierda | <kbd>Ctrl + T</kbd> Centrar.<br>
+          <kbd>Ctrl + D</kbd> Alinear a la Derecha | <kbd>Ctrl + J</kbd> Justificar.<br>
+          <kbd>Ctrl + 1</kbd> Interlineado sencillo (1.0).<br>
+          <kbd>Ctrl + 5</kbd> Interlineado de 1.5 líneas.<br>
+          <kbd>Ctrl + 2</kbd> Interlineado doble (2.0).
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Diseño de Página -->
+    <div class="topic-card reveal" style="animation-delay: 0.5s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">5. Diseño de Página</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Antes de redactar documentos oficiales, se debe configurar el lienzo de trabajo desde la pestaña <strong>Disposición</strong> (o Diseño de página).</p>
+        
+        <div class="sub-topic">
+          <h4>Márgenes, Tamaño y Orientación</h4>
+          <p><strong>Márgenes:</strong> Es el espacio en blanco alrededor de la hoja. Para normas APA se usa 2.54 cm en todos los lados.<br>
+          <strong>Tamaño del papel:</strong> Por defecto suele estar en formato A4 (el estándar en Perú) o Carta (Letter).<br>
+          <strong>Orientación:</strong> Puede ser Vertical (Portrait) o Horizontal (Landscape). Idealmente, se puede usar "Saltos de sección" para tener hojas verticales y horizontales en el mismo documento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Herramientas Avanzadas -->
+    <div class="topic-card reveal" style="animation-delay: 0.6s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">6. Herramientas Avanzadas</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <div class="sub-topic">
+          <h4>Numeración, viñetas y tabulaciones</h4>
+          <p>Las <strong>viñetas</strong> (puntos) y la <strong>numeración</strong> (1, 2, 3) organizan listas. Las <strong>tabulaciones</strong> permiten alinear datos en posiciones específicas usando la regla superior (muy útil para índices manuales o firmas múltiples).</p>
+        </div>
+        
+        <div class="sub-topic">
+          <h4>Encabezados, pies de página y numeración</h4>
+          <p>Accedes a ellos haciendo doble clic en el margen superior o inferior. El texto colocado aquí se repetirá en todas las hojas. Desde la pestaña <strong>Insertar</strong>, puedes agregar el número de página automáticamente.</p>
+        </div>
+
+        <div class="sub-topic">
+          <h4>Notas al pie y Columnas</h4>
+          <p><strong>Notas al pie:</strong> (Pestaña Referencias) Añaden una aclaración al final de la página (ej. definición de una palabra técnica).<br>
+          <strong>Columnas:</strong> (Pestaña Disposición) Divide el texto en 2 o más columnas periodísticas, útil para artículos de investigación tipo paper.</p>
+        </div>
+        
+        <div class="topic-card__shortcut">
+          <strong>Atajos Rápidos:</strong><br>
+          <kbd>Alt + Ctrl + O</kbd> Inserta una nota al pie de página automáticamente.<br>
+          <kbd>Tab</kbd> Aumentar nivel de lista/sangría | <kbd>Shift + Tab</kbd> Reducir.
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Objetos y Elementos -->
+    <div class="topic-card reveal" style="animation-delay: 0.7s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">7. Objetos y Elementos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">La pestaña <strong>Insertar</strong> es la clave para enriquecer el documento visualmente y añadir funcionalidad.</p>
+
+        <div class="sub-topic">
+          <h4>Tablas y Gráficos</h4>
+          <p>Las <strong>Tablas</strong> organizan información en filas y columnas. Al insertar una tabla, se activan pestañas emergentes para su diseño. Los <strong>Gráficos</strong> integran un pequeño panel de Excel para tabular datos estadísticos.</p>
+        </div>
+
+        <div class="sub-topic">
+          <h4>Hipervínculos</h4>
+          <p>Permiten que un texto sea "cliqueable" y te lleve a una página web externa, a otra parte del mismo documento, o a un correo electrónico.</p>
+        </div>
+        
+        <div class="sub-topic">
+          <h4>Bases de datos simples (Correspondencia)</h4>
+          <p>La pestaña <strong>Correspondencia</strong> permite enlazar Word con una base de datos de Excel. Útil para crear 100 diplomas o cartas personalizadas automáticamente a partir de un solo documento maestro. Se le conoce como "Combinar Correspondencia".</p>
+        </div>
+        
+        <div class="topic-card__shortcut">
+          <strong>Atajos Rápidos:</strong><br>
+          <kbd>Ctrl + Alt + K</kbd> (o Ctrl + K dependiendo del idioma) Inserta un hipervínculo en el texto seleccionado.
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Impresión de Documentos -->
+    <div class="topic-card reveal" style="animation-delay: 0.8s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">8. Impresión de Documentos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">El paso final antes de entregar físicamente el trabajo.</p>
+        
+        <div class="sub-topic">
+          <h4>Configuración y Vista previa</h4>
+          <p>Antes de imprimir, siempre revisa la vista preliminar para asegurar que ningún gráfico o tabla quede cortado. En la configuración puedes elegir qué impresora usar, imprimir a doble cara, e imprimir múltiples páginas en una sola hoja (útil para borradores y ahorrar papel).</p>
+        </div>
+
+        <div class="sub-topic">
+          <h4>Impresión final</h4>
+          <p>Puedes elegir imprimir "Todo el documento", "Solo la página actual", o un rango personalizado (ej. páginas "1, 3, 5-10").</p>
+        </div>
+
+        <div class="topic-card__shortcut">
+          <strong>Atajo Principal:</strong><br>
+          <kbd>Ctrl + P</kbd> Abre instantáneamente la ventana de Impresión y Vista Preliminar.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Script para hacer desplegables las tarjetas
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+        // Cerrar todas
+        document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('expanded'));
+        // Si no estaba abierta, abrirla
+        if (!isExpanded) card.classList.add('expanded');
+      });
+    });
+  </script>
+</body>
+</html>

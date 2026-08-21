@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parte 02: Navegador de Internet · Módulo 01</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-950: #1d3a25;
+      --green-900: #24522e;
+      --green-800: #2F7D3E;
+      --green-700: #3a8e4b;
+      --green-600: #469F5A;
+      --green-500: #5FAF6A;
+      --green-400: #7BC182;
+      --green-300: #9ed3a4;
+      --green-100: #e2f3e5;
+      --gold-500: #bd9a15;
+      --gold-400: #D4B11A;
+      --gold-300: #E7C94B;
+      --bg: #fbfdfb;
+      --surface: #ffffff;
+      --ink: #0f2a1c;
+      --body: #3f4f46;
+      --muted: #64748b;
+      --border: rgba(15, 42, 28, 0.09);
+      --shadow-sm: 0 6px 18px rgba(10, 35, 22, 0.06);
+      --shadow-lg: 0 22px 50px rgba(10, 35, 22, 0.14);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a1a11;
+        --surface: #10281a;
+        --ink: #e7f6ec;
+        --body: #c3d8cb;
+        --muted: #8aa898;
+        --border: rgba(231, 246, 236, 0.10);
+      }
+      .topic-card { background: var(--surface); border-color: var(--border); }
+      .topic-card__title, h2 { color: var(--ink); }
+    }
+
+    body {
+      font-family: "Outfit", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--body);
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 2rem clamp(1.2rem, 4vw, 2rem); }
+
+    /* Header pequeño */
+    .header-small {
+      background: linear-gradient(135deg, var(--green-950) 0%, var(--green-800) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .back-link {
+      position: absolute;
+      left: 2rem;
+      top: 2rem;
+      color: var(--gold-300);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: var(--gold-400); }
+    
+    .header-small h1 {
+      font-size: 2rem;
+      margin-top: 1.5rem;
+    }
+    .header-small h1 span { color: var(--gold-300); }
+
+    /* Tarjetas de tema */
+    .topic-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .topic-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    
+    .topic-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .topic-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    
+    .topic-card__toggle {
+      background: var(--green-100);
+      border: none;
+      color: var(--green-800);
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .topic-card__body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    }
+    
+    .topic-card.expanded .topic-card__body {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+    }
+    
+    .topic-card.expanded .topic-card__toggle { transform: rotate(180deg); }
+
+    .topic-card__theory { font-size: 0.95rem; margin-bottom: 0.8rem; }
+    
+    .topic-card__shortcut {
+      display: inline-block;
+      background: var(--green-50);
+      border-left: 3px solid var(--green-500);
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--green-900);
+      margin-top: 0.5rem;
+      border-radius: 0 8px 8px 0;
+    }
+    kbd {
+      background: var(--green-800);
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+    
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <header class="header-small">
+    <a href="../index.html" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver al Índice
+    </a>
+    <h1>Parte 02: <span>Navegador de Internet</span></h1>
+    <p>Comunicación, Búsqueda y Gestión Web</p>
+  </header>
+
+  <main class="wrap">
+    
+    <div class="topic-card reveal" style="animation-delay: 0.1s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">1. Conceptos básicos de Internet</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Internet es una red global de computadoras interconectadas que comparten información. Para acceder a las páginas (World Wide Web) usamos "Navegadores" (como Chrome o Firefox). Cada página web tiene una dirección única conocida como URL (por ejemplo: www.uncp.edu.pe), la cual escribimos en la barra de direcciones.</p>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.2s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">2. Navegación web segura y eficiente</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Para navegar con seguridad, siempre verifica que la página tenga un candado al lado de la URL (protocolo HTTPS), lo que significa que la conexión es privada. Evita hacer clic en anuncios engañosos o descargar programas de sitios no oficiales para prevenir el robo de información (Phishing) o virus.</p>
+        <div class="topic-card__shortcut"><strong>Práctica:</strong> Revisa el remitente real de los correos y nunca ingreses contraseñas en enlaces sospechosos.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.3s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">3. Uso de motores de búsqueda</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Un motor de búsqueda (como Google) es una herramienta que busca información en toda la red según las palabras clave que ingreses. Para búsquedas académicas o avanzadas, es muy útil utilizar operadores de búsqueda especiales que filtran los resultados con precisión.</p>
+        <div class="topic-card__shortcut">
+          <strong>Trucos de búsqueda (Google):</strong><br>
+          <kbd>"texto exacto"</kbd> Busca la frase tal cual.<br>
+          <kbd>site:edu.pe</kbd> Busca solo en páginas de universidades peruanas.<br>
+          <kbd>filetype:pdf</kbd> Encuentra únicamente documentos PDF.
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.4s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">4. Manejo de Google Chrome y Mozilla Firefox</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Los navegadores modernos usan un sistema de "Pestañas" que permite tener muchas páginas abiertas en una sola ventana. Además, puedes guardar tus páginas frecuentes en los "Marcadores" o "Favoritos", y consultar páginas que visitaste anteriormente en el "Historial".</p>
+        <div class="topic-card__shortcut">
+          <strong>Atajos:</strong><br>
+          <kbd>Ctrl + T</kbd> Nueva pestaña. <kbd>Ctrl + W</kbd> Cerrar pestaña.<br>
+          <kbd>Ctrl + Shift + T</kbd> Recuperar la última pestaña cerrada (¡Muy útil!).<br>
+          <kbd>Ctrl + D</kbd> Guardar página en Favoritos.
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.5s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">5. Descarga y gestión de archivos</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Todo archivo que bajes de Internet se guardará por defecto en la carpeta "Descargas" de Windows. Para mantener el orden, es recomendable mover inmediatamente los documentos importantes a sus carpetas correspondientes (por ejemplo, "Trabajos de Agronomía") y eliminar los instaladores que ya no necesites.</p>
+        <div class="topic-card__shortcut"><strong>Atajo (Navegador):</strong> <kbd>Ctrl + J</kbd> Abre el historial de Descargas del navegador.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.6s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">6. Envío y recepción de archivos por correo electrónico</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Plataformas como Gmail u Outlook permiten adjuntar archivos (botón con forma de clip) a los mensajes. Existe un límite de tamaño (generalmente 25 MB). Si el archivo es muy pesado, debes subirlo a la nube (como Google Drive o OneDrive) y enviar solo el enlace generado.</p>
+        <div class="topic-card__shortcut"><strong>Práctica:</strong> Si envías varios documentos juntos, primero compáctalos en un archivo .zip para facilitar la descarga al destinatario.</div>
+      </div>
+    </div>
+
+    <div class="topic-card reveal" style="animation-delay: 0.7s;">
+      <div class="topic-card__header">
+        <span class="topic-card__title">7. Compartir archivos y contenidos en redes sociales</span>
+        <button class="topic-card__toggle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="topic-card__body">
+        <p class="topic-card__theory">Aplicaciones como WhatsApp Web, Telegram o Microsoft Teams (muy usado en la UNCP) permiten transferir archivos de forma instantánea. WhatsApp tiene límites en el tamaño de videos, mientras que Telegram y Teams permiten el envío de archivos mucho más pesados sin perder tanta calidad.</p>
+        <div class="topic-card__shortcut"><strong>Práctica:</strong> En WhatsApp Web, puedes simplemente arrastrar un documento desde el Explorador de Windows directamente a la conversación para enviarlo rápido.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Script para hacer desplegables las tarjetas
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+        document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('expanded'));
+        if (!isExpanded) card.classList.add('expanded');
+      });
+    });
+  </script>
+</body>
+</html>
